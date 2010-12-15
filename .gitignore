@@ -1,5 +1,15 @@
+*~
 config.h.in
 configure
 rdf2pl.html
 rdf2pl.pdf
 rdf2pl.tex
+Makefile
+autom4te.cache
+config.h
+config.log
+config.status
+rdf2pl.aux
+rdf2pl.log
+rdf2pl.out
+rdf2pl.toc
