@@ -243,20 +243,6 @@ propertyElt(Id, Name, Value, Options0) ::=
 	}.
 propertyElt(Id, Name, Value, Options) ::=
 	\literalPropertyElt(Id, Name, Value, Options), !.
-					% 5.14 emptyPropertyElt
-propertyElt(Id, Name, Value, Options) ::=
-	element(Name, A, \all_ws),
-	{ !,
-	  rewrite(\emptyPropertyElt(Id, Value, Options), A)
-	}.
-
-propertyElt(_, Name, description(description, Id, Properties), Options) ::=
-	element(Name,
-		\attrs([ \parseResource,
-			 \?idAboutAttr(Id, Options)
-		       ]),
-		\propertyElts(Properties, Options)),
-	!.
 propertyElt(_, Name, Literal, Options) ::=
 	element(Name,
 		\attrs([ \parseLiteral
@@ -271,6 +257,20 @@ propertyElt(Id, Name, collection(Elements), Options) ::=
 			 \?idAttr(Id, Options)
 		       ]),
 		\nodeElementList(Elements, Options)).
+					% 5.14 emptyPropertyElt
+propertyElt(Id, Name, Value, Options) ::=
+	element(Name, A, \all_ws),
+	{ !,
+	  rewrite(\emptyPropertyElt(Id, Value, Options), A)
+	}.
+
+propertyElt(_, Name, description(description, Id, Properties), Options) ::=
+	element(Name,
+		\attrs([ \parseResource,
+			 \?idAboutAttr(Id, Options)
+		       ]),
+		\propertyElts(Properties, Options)),
+	!.
 propertyElt(Id, Name, Literal, Options) ::=
 	element(Name,
 		\attrs([ \?idAttr(Id, Options)
