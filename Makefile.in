@@ -4,29 +4,8 @@
 # Copyright: LGPL (see COPYING or www.gnu.org
 ################################################################
 
-.SUFFIXES: .tex .dvi .doc .pl
-
-SHELL=@SHELL@
-PLBASE=@PLBASE@
-PLARCH=@PLARCH@
-PL=@PL@
-XPCEBASE=$(PLBASE)/xpce
-PKGDOC=$(PLBASE)/doc/packages
-PCEHOME=../xpce
-
-DOCTOTEX=$(PCEHOME)/bin/doc2tex
-PLTOTEX=$(PCEHOME)/bin/pl2tex
-RUNTEX=../../man/runtex
-LATEX=latex
-DOC=rdf2pl
-TEX=$(DOC).tex
-DVI=$(DOC).dvi
-PDF=$(DOC).pdf
-HTML=$(DOC).html
-
-INSTALL=@INSTALL@
-INSTALL_PROGRAM=@INSTALL_PROGRAM@
-INSTALL_DATA=@INSTALL_DATA@
+PACKAGE=RDF
+include ../Makefile.defs
 
 LIBPL=		rdf.pl rdf_parser.pl rdf_triple.pl rewrite.pl \
 		rdf_ntriples.pl rdf_write.pl
@@ -35,14 +14,14 @@ XPCEPL=		rdf_diagram.pl
 all:
 		@echo "Nothing to do for this package"
 
-install:	$(LIBPL) xpce-install
-		$(INSTALL_DATA) $(LIBPL) $(DESTDIR)$(PLBASE)/library
+install:	$(addprefix $(srcdir)/, $(LIBPL)) # xpce-install VSC needs to be fixed
+		$(INSTALL_DATA) $(addprefix $(srcdir)/, $(LIBPL)) $(DESTDIR)$(PLLIBDIR)
 		$(PL) -f none -g make -t halt
 
 ln-install::
 		@$(MAKE) INSTALL_DATA=../ln-install install
 
-xpce-install:	$(XPCEPL)
+xpce-install:	$(addprefix $(srcdir)/, $(XPCEPL))
 		if [ -d $(DESTDIR)$(XPCEBASE) ]; then \
 		   $(INSTALL) -m 644 $(XPCEPL) $(DESTDIR)$(XPCEBASE)/prolog/lib; \
 		fi
@@ -60,16 +39,12 @@ uninstall:
 		$(PL) -f none -g make -t halt
 
 check::
-		$(PL) -q -f test_rdf.pl -g true -t test_rdf
-		$(PL) -q -f test_write.pl -g true -t test_write
+		(cd $(srcdir) && $(PL) -q -f test_rdf.pl -g true -t test_rdf )
+		(cd $(srcdir) && $(PL) -q -f test_write.pl -g true -t test_write )
 
 ################################################################
 # Documentation
 ################################################################
-
-doc:		$(PDF) $(HTML)
-pdf:		$(PDF)
-html:		$(HTML)
 
 $(HTML):	$(TEX)
 		latex2html $(DOC)
