@@ -22,6 +22,7 @@
 	   , memberchk/2
 	   ]).
 
+:- use_module(library(lists)).
 
 pretty_print(Term) :-
 	numbervars(Term, 0, _),
