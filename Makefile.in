@@ -43,24 +43,6 @@ check::
 		(cd $(srcdir) && $(PL) -q -f test_write.pl -g true -t test_write )
 
 ################################################################
-# Documentation
-################################################################
-
-$(HTML):	$(TEX)
-		latex2html $(DOC)
-		mv html/index.html $@
-
-$(PDF):		$(TEX)
-		$(RUNTEX) --pdf $(DOC)
-
-$(TEX):		$(DOCTOTEX)
-
-.doc.tex:
-		$(DOCTOTEX) $*.doc > $*.tex
-.pl.tex:
-		$(PLTOTEX) $*.pl > $*.tex
-
-################################################################
 # Clean
 ################################################################
 
