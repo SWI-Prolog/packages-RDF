@@ -233,8 +233,8 @@ def_entity(DTD, Name, Value) :-
 do_process_rdf(Parser, In, NSList, Close, Cleanup, Options) :-
 	call_cleanup((   sgml_parse(Parser,
 				    [ source(In),
-				      call(begin, rdf:on_begin),
-				      call(xmlns, rdf:on_xmlns)
+				      call(begin, on_begin),
+				      call(xmlns, on_xmlns)
 				    | Options
 				    ]),
 			 exit_ns_collect(NSList)
