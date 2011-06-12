@@ -445,12 +445,6 @@ value_uri(URI, Options) ::=
 	    uri_normalized_iri(A, Base, URI)
 	}.
 
-
-globalid(Id, Options) ::=
-	A,
-	{   make_globalid(A, Options, Id)
-	}.
-
 uniqueid(Id, Options) ::=
 	A,
 	{   unique_xml_name(A, HashID),
