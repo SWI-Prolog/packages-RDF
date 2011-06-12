@@ -5,6 +5,7 @@
 ################################################################
 
 PACKAGE=RDF
+DOC=rdf2pl
 include ../Makefile.defs
 
 LIBPL=		rdf.pl rdf_parser.pl rdf_triple.pl rewrite.pl \
@@ -29,10 +30,10 @@ xpce-install:	$(addprefix $(srcdir)/, $(XPCEPL))
 rpm-install:	install
 
 pdf-install::
-		-$(INSTALL_DATA) $(DOC).pdf $(DESTDIR)$(PKGDOC)
+		-$(INSTALL_DATA) $(DOC).pdf $(DESTDIR)$(PKGDOCDIR)
 
 html-install::
-		-$(INSTALL_DATA) $(DOC).html $(DESTDIR)$(PKGDOC)
+		-$(INSTALL_DATA) $(DOC).html $(DESTDIR)$(PKGDOCDIR)
 
 uninstall:
 		(cd $(PLBASE)/library && rm -f $(LIBPL))
