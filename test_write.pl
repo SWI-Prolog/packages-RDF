@@ -67,6 +67,7 @@ test_graph(Triples) :-
 	rdf_write_xml(Out, Triples),
 	close(Out),
 	load_rdf(Tmp, ReadTriples),
+%	writeln(Tmp),
 	delete_file(Tmp),
 	compare_triples(Triples, ReadTriples, _).
 
@@ -155,6 +156,10 @@ test(lang, true) :-
 		   ]).
 test(type, true) :-
 	test_graph([ rdf(s, p, literal(type(t, hello)))
+		   ]).
+test(iri, true) :-
+	R = 'http://www.example.com/één_twee#r',
+	test_graph([ rdf(R,R,R)
 		   ]).
 
 :- end_tests(rdf_write).
