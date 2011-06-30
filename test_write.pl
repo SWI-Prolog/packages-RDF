@@ -66,11 +66,17 @@ test_graph(Triples) :-
 	open(Tmp, write, Out, [encoding(utf8)]),
 	rdf_write_xml(Out, Triples),
 	close(Out),
+	cat(Tmp),
 	load_rdf(Tmp, ReadTriples),
-%	writeln(Tmp),
 	delete_file(Tmp),
 	compare_triples(Triples, ReadTriples, _).
 
+cat(File) :-
+	debugging(rdf_write), !,
+	open(File, read, In, [encoding(utf8)]),
+	copy_stream_data(In, current_output),
+	close(In).
+cat(_).
 
 		 /*******************************
 		 *	     COMPARING		*
@@ -157,8 +163,16 @@ test(lang, true) :-
 test(type, true) :-
 	test_graph([ rdf(s, p, literal(type(t, hello)))
 		   ]).
-test(iri, true) :-
+test(iri_l1, true) :-
 	R = 'http://www.example.com/één_twee#r',
+	test_graph([ rdf(R,R,R)
+		   ]).
+test(iri_amp, true) :-
+	R = 'http://www.example.com/een&twee#r',
+	test_graph([ rdf(R,R,R)
+		   ]).
+test(iri_space, true) :-
+	R = 'http://www.example.com/een%20twee#r',
 	test_graph([ rdf(R,R,R)
 		   ]).
 
