@@ -37,6 +37,7 @@
 	  ]).
 :- use_module(library(gensym)).
 :- use_module(library(option)).
+:- use_module(library(uri)).
 :- use_module(rdf_parser).
 
 /** <module> Create triples from intermediate representation
@@ -278,7 +279,8 @@ global_ref(In, Out) :-
 	->  (   NS == rdf,
 	        rdf_name_space(RDF)
 	    ->	atom_concat(RDF, Local, Out)
-	    ;	atom_concat(NS, Local, Out)
+	    ;	atom_concat(NS, Local, Out0),
+		uri_normalized_iri(Out0, Out)
 	    )
 	;   Out = In
 	).
