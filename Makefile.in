@@ -48,7 +48,7 @@ check::
 ################################################################
 
 clean:
-		rm -f *~ *% config.log
+		rm -f *~ *% config.log *pdf *.tex *html
 
 distclean:	clean
 		rm -f $(TARGETS) config.h config.cache config.status Makefile
