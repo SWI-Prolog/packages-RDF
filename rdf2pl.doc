@@ -461,8 +461,8 @@ using:
 % make install
 \end{code}
 
-This installs the Prolog library files in \file{$PLBASE/library}, where
-\file{$PLBASE} refers to the SWI-Prolog `home-directory'.
+This installs the Prolog library files in \file{\$ PLBASE/library}, where
+\file{\$ PLBASE} refers to the SWI-Prolog `home-directory'.
 
 \subsection{Windows}
 
