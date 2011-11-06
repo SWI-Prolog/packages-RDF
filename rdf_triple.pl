@@ -40,6 +40,11 @@
 :- use_module(library(uri)).
 :- use_module(rdf_parser).
 
+:- predicate_options(rdf_start_file/2, 1,
+		     [ base_uri(atom),
+		       blank_nodes(oneof([share,noshare]))
+		     ]).
+
 /** <module> Create triples from intermediate representation
 
 Convert the output of xml_to_rdf/3  from   library(rdf)  into  a list of
