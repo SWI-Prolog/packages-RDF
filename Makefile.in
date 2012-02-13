@@ -6,25 +6,26 @@
 
 PACKAGE=RDF
 DOC=rdf2pl
-include ../Makefile.defs
 
 LIBPL=		rdf.pl rdf_parser.pl rdf_triple.pl rewrite.pl \
 		rdf_ntriples.pl rdf_write.pl
 XPCEPL=		rdf_diagram.pl
 
+include ../Makefile.defs
+
 all:
 		@echo "Nothing to do for this package"
 
-install:	$(addprefix $(srcdir)/, $(LIBPL)) # xpce-install VSC needs to be fixed
-		$(INSTALL_DATA) $(addprefix $(srcdir)/, $(LIBPL)) $(DESTDIR)$(PLLIBDIR)
+install:	$(LIBSRCPL) xpce-install
+		$(INSTALL_DATA) $(LIBSRCPL) $(DESTDIR)$(PLLIBDIR)
 		$(PL) -f none -g make -t halt
 
 ln-install::
 		@$(MAKE) INSTALL_DATA=../ln-install install
 
-xpce-install:	$(addprefix $(srcdir)/, $(XPCEPL))
+xpce-install:	$(SRCXPCEPL)
 		if [ -d $(DESTDIR)$(XPCEBASE) ]; then \
-		   $(INSTALL) -m 644 $(XPCEPL) $(DESTDIR)$(XPCEBASE)/prolog/lib; \
+		   $(INSTALL) -m 644 $(SRCXPCEPL) $(DESTDIR)$(XPCEBASE)/prolog/lib; \
 		fi
 
 rpm-install:	install
