@@ -4,8 +4,8 @@
 \usepackage{times}
 
 \onefile
-\htmloutput{html}				% Output directory
-\htmlmainfile{index}				% Main document file
+\htmloutput{.}					% Output directory
+\htmlmainfile{rdf2pl}				% Main document file
 \bodycolor{white}				% Page colour
 
 \newcommand{\elem}[1]{{\tt\string<#1\string>}}
