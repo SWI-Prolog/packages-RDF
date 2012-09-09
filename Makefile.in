@@ -11,6 +11,7 @@ LIBPL=		rdf.pl rdf_parser.pl rdf_triple.pl rewrite.pl \
 		rdf_ntriples.pl rdf_write.pl
 XPCEPL=		rdf_diagram.pl
 SRCXPCEPL=	$(addprefix $(srcdir)/, $(XPCEPL))
+LIBSRCPL=	$(addprefix $(srcdir)/, $(LIBPL))
 
 include ../Makefile.defs
 
