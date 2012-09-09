@@ -51,9 +51,8 @@ check::
 ################################################################
 
 clean:
-		rm -f *~ *% config.log *pdf *.tex *html
+		rm -f *~ *% config.log $(TEX)
 
 distclean:	clean
 		rm -f $(TARGETS) config.h config.cache config.status Makefile
-		rm -f $(TEX)
-		$(RUNTEX) --clean $(DOC)
+		rm -f $(DOC).aux $(DOC).log $(DOC).out $(DOC).toc
