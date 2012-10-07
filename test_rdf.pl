@@ -53,7 +53,7 @@ user:file_search_path(foreign, '../semweb').
 :- use_module(library(rdf_parser)).
 :- use_module(library(rdf_triple)).
 :- use_module(library(rdf)).
-:- use_module(library(maplist)).
+:- use_module(library(apply)).
 :- use_module(pretty_print).
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
