@@ -43,8 +43,8 @@ uninstall:
 		$(PL) -f none -g make -t halt
 
 check::
-		(cd $(srcdir) && $(PL) -q -f test_rdf.pl -g true -t test_rdf )
-		(cd $(srcdir) && $(PL) -q -f test_write.pl -g true -t test_write )
+		$(PL) -q -f test_rdf.pl -g test_rdf,halt -t 'halt(1)'
+		$(PL) -q -f test_write.pl -g test_write,halt -t 'halt(1)'
 
 ################################################################
 # Clean
