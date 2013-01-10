@@ -27,13 +27,14 @@
     the GNU General Public License.
 */
 
-:- module(rdf_ntriples,
+:- module(rdf_ntriples_old,
 	  [ load_rdf_ntriples/2,	% +File, -Triples
 	    rdf_ntriple_part/4		% +Field, -Value, <DCG>
 	  ]).
 
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+/** <module> RDF N-triples parser (obsolete)
+
 This module parses n-triple files as defined   by the W3C RDF working in
 http://www.w3.org/TR/rdf-testcases/#ntriples.   This   format     is   a
 simplified version of the RDF N3 notation   used  in the *.nt files that
@@ -45,16 +46,16 @@ The returned list terms are of the form
 
 where
 
-	# Subject
+	* Subject
 	is an atom or node(Id) for anonymous nodes
-
-	# Predicate
+	* Predicate
 	is an atom
-
-	# Object
+	* Object
 	is an atom, node(Id), literal(Atom) or xml(Atom)
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
+@deprecated	This library will shortly be replaced with a stub that
+		calls library(semweb/rdf_ntriples).
+*/
 
 %	load_rdf_ntriples(+Source, -Triples)
 %
