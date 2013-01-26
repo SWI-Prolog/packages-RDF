@@ -1,6 +1,6 @@
 ################################################################
 # SWI-Prolog `RDF' package
-# Author:    Jan Wielemaker. jan@swi.psy.uva.nl
+# Author:    Jan Wielemaker. J.Wielemaker@vu.nl
 # Copyright: LGPL (see COPYING or www.gnu.org
 ################################################################
 
@@ -20,14 +20,14 @@ all:
 
 install:	$(LIBSRCPL) xpce-install
 		$(INSTALL_DATA) $(LIBSRCPL) $(DESTDIR)$(PLLIBDIR)
-		$(PL) -f none -g make -t halt
+		$(MKINDEX)
 
 ln-install::
 		@$(MAKE) INSTALL_DATA=../ln-install install
 
 xpce-install:	$(SRCXPCEPL)
 		if [ -d $(DESTDIR)$(XPCEBASE) ]; then \
-		   $(INSTALL) -m 644 $(SRCXPCEPL) $(DESTDIR)$(XPCEBASE)/prolog/lib; \
+		   $(INSTALL_DATA) $(SRCXPCEPL) $(DESTDIR)$(XPCEBASE)/prolog/lib; \
 		fi
 
 rpm-install:	install
@@ -40,7 +40,7 @@ html-install::
 
 uninstall:
 		(cd $(PLBASE)/library && rm -f $(LIBPL))
-		$(PL) -f none -g make -t halt
+		$(MKINDEX)
 
 check::
 		$(PL) -q -f test_rdf.pl -g test_rdf,halt -t 'halt(1)'
