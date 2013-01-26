@@ -1,9 +1,10 @@
 /*  Part of SWI-Prolog
 
     Author:        Jan Wielemaker
-    E-mail:        J.Wielemaker@uva.nl
+    E-mail:        J.Wielemaker@vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (C): 2010, University of Amsterdam
+    Copyright (C): 2010-2013, University of Amsterdam
+			      VU University Amsterdam
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -38,20 +39,21 @@
 :- use_module(library(rdf_parser)).	% get access to declared namespaces
 
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+/** <module> Show graphical representation of a set of triples
+
 This file defines the class rdf_diagram, a   window capable of showing a
 set of triples.
 
 The predicate rdf_diagram_from_file(+File) is a   simple demo and useful
 tool to show RDF from simple RDF files.
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+*/
 
 
 		 /*******************************
 		 *	    SIMPLE ENTRY	*
 		 *******************************/
 
-%	rdf_diagram_from_file(+File)
+%%	rdf_diagram_from_file(+File)
 %
 %	Show the triples from File in a window.
 
