@@ -202,7 +202,7 @@ process_rdf(File, OnObject, M:Options0) :-
 	->  Source = BaseURI
 	;   is_stream(File)
 	->  In = File,
-	    option(db(Source), Options, BaseURI)
+	    option(graph(Source), Options, BaseURI)
 	;   open(File, read, In, [type(binary)]),
 	    Close = In,
 	    Source = File
