@@ -442,7 +442,7 @@ name_uri(URI, Options) ::=
 value_uri(URI, Options) ::=
 	A,
 	{   rdf_state_base_uri(Options, Base),
-	    uri_normalized_iri(A, Base, URI)
+	    iri_normalized(A, Base, URI)
 	}.
 
 uniqueid(Id, Options) ::=
@@ -460,7 +460,7 @@ unique_xml_name(Name, HashID) :-
 
 make_globalid(In, Options, Id) :-
 	rdf_state_base_uri(Options, Base),
-	uri_normalized_iri(In, Base, Id).
+	iri_normalized(In, Base, Id).
 
 parseLiteral    ::= \rdf_or_unqualified(parseType) = 'Literal'.
 parseResource   ::= \rdf_or_unqualified(parseType) = 'Resource'.
@@ -556,7 +556,7 @@ modify_a_state([H|T0], Options0, [H|T], Options) :-
 modify_a(xml:base, Base1, Options0, Options) :- !,
 	rdf_state_base_uri(Options0, Base0),
 	remove_fragment(Base1, Base2),
-	uri_normalized_iri(Base2, Base0, Base),
+	iri_normalized(Base2, Base0, Base),
 	set_base_uri_of_rdf_state(Base, Options0, Options).
 modify_a(xml:lang, Lang, Options0, Options) :- !,
 	rdf_state_ignore_lang(Options0, false), !,

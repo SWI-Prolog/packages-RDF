@@ -285,7 +285,7 @@ global_ref(In, Out) :-
 	        rdf_name_space(RDF)
 	    ->	atom_concat(RDF, Local, Out)
 	    ;	atom_concat(NS, Local, Out0),
-		uri_normalized_iri(Out0, Out)
+		iri_normalized(Out0, Out)
 	    )
 	;   Out = In
 	).
