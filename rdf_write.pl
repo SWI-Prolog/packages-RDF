@@ -94,8 +94,7 @@ rdf_write_header(Out, Triples) :-
 	used_namespaces(Triples, NSList),
 	(   member(Id, NSList),
 	    ns(Id, NS),
-	    rdf_quote_uri(NS, QNS),
-	    xml_quote_attribute(QNS, NSText0, Enc),
+	    xml_quote_attribute(NS, NSText0, Enc),
 	    xml_escape_parameter_entity(NSText0, NSText),
 	    format(Out, '~N    <!ENTITY ~w \'~w\'>', [Id, NSText]),
 	    fail
@@ -619,18 +618,15 @@ rdf_value(V, Text, Encoding) :-
 	atom_concat(Prefix, V1, V),
 	ns(NS, Full),
 	atom_concat(Full, Local, V1), !,
-	rdf_quote_uri(Local, QLocal0),
-	xml_quote_attribute(QLocal0, QLocal, Encoding),
+	xml_quote_attribute(Local, QLocal, Encoding),
 	atomic_list_concat([Prefix, '&', NS, (';'), QLocal], Text).
 rdf_value(V, Text, Encoding) :-
 	ns(NS, Full),
 	atom_concat(Full, Local, V), !,
-	rdf_quote_uri(Local, QLocal0),
-	xml_quote_attribute(QLocal0, QLocal, Encoding),
+	xml_quote_attribute(Local, QLocal, Encoding),
 	atomic_list_concat(['&', NS, (';'), QLocal], Text).
 rdf_value(V, Q, Encoding) :-
-	rdf_quote_uri(V, Q0),
-	xml_quote_attribute(Q0, Q, Encoding).
+	xml_quote_attribute(V, Q, Encoding).
 
 to_be_described('http://t-d-b.org?').
 
