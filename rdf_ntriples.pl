@@ -189,9 +189,9 @@ name_codes([]) -->
 escaped_uri_codes([]) -->
 	[].
 escaped_uri_codes([C|T]) -->
-	"%", [D0,D1], !,
+	"%", [D0,D1],
 	{ code_type(D0, xdigit(V0)),
-	  code_type(D1, xdigit(V1)),
+	  code_type(D1, xdigit(V1)), !,
 	  C is V0<<4 + V1
 	},
 	escaped_uri_codes(T).
