@@ -42,6 +42,7 @@ an RDF/XML document from a list of triples.
 \newpage
 
 \section{Introduction}
+\label{sec:rdfxml-intro}
 
 RDF is a promising standard for representing meta-data about documents
 on the web as well as exchanging frame-based data (e.g. ontologies). RDF
@@ -67,10 +68,11 @@ Prolog term representing the XML document processing it according to the
 RDF syntax is quick and easy in Prolog. The alternative, getting yet
 another library and language attached to the system, is getting less
 attractive. In this document we explore the suitability of Prolog for
-processing XML documents in general and into RDF in particular. 
+processing XML documents in general and into RDF in particular.
 
 
 \section{Parsing RDF in Prolog}
+\label{sec:rdfxml-parser}
 
 We realised an RDF compiler in Prolog on top of the {\bf sgml2pl}
 package (providing a name-space sensitive XML parser). The
@@ -150,7 +152,8 @@ description(description, About, BagID, Properties) ::=
 \end{code}
 
 
-\section{Predicates}
+\section{Predicates for parsing RDF/XML}
+\label{sec:rdfxml-predicates}
 
 The parser is designed to operate in various environments and therefore
 provides interfaces at various levels. First we describe the top level
@@ -208,7 +211,7 @@ with a Prolog representation of \arg{Content} according to
 
 This option servers two purposes.  First of all it can be used
 to ignore type declarations for backward compatibility of this
-library.  Second it can be used to convert typed literals to 
+library.  Second it can be used to convert typed literals to
 a meaningful Prolog representation.  E.g.\ convert '42' to the
 Prolog integer 42 if the type is \const{xsd:int} or a related
 type.
@@ -229,7 +232,7 @@ The \arg{Triples} list is a list of \term{rdf}{Subject, Predicate,
 Object} triples.  \arg{Subject} is either a plain resource (an atom),
 or one of the terms \term{each}{URI} or \term{prefix}{URI} with the
 obvious meaning.  \arg{Predicate} is either a plain atom for
-explicitely non-qualified names or a term 
+explicitely non-qualified names or a term
 \mbox{\arg{NameSpace}{\bf :}\arg{Name}}.  If \arg{NameSpace} is the
 defined RDF name space it is returned as the atom \const{rdf}.
 Finally, \arg{Object} is a URI, a \arg{Predicate} or a term of the
@@ -271,6 +274,7 @@ format is returned.
 
 
 \subsection{Name spaces}
+\label{sec:rdfxml-name-spaces}
 
 XML name spaces are identified using a URI. Unfortunately various URI's
 are in common use to refer to RDF. The \file{rdf_parser.pl} module
@@ -297,6 +301,7 @@ rdf_name_space('http://www.w3.org/TR/REC-rdf-syntax').
 
 
 \subsection{Low-level access}
+\label{sec:rdfxml-low-level}
 
 The above defined load_rdf/[2,3] is not always suitable. For example, it
 cannot deal with documents where the RDF statement is embedded in an XML
@@ -347,7 +352,7 @@ The predicate process_rdf/3 processes arbitrary XML documents, only
 interpreting the content of \const{rdf:RDF} elements. If this option
 is \const{false} (default), it gives a warning on elements that are
 not processed.  The option \term{embedded}{true} can be used to
-process RDF embedded in \jargon{xhtml} without warnings. 
+process RDF embedded in \jargon{xhtml} without warnings.
     \end{description}
 
 \end{description}
@@ -356,6 +361,7 @@ process RDF embedded in \jargon{xhtml} without warnings.
 
 
 \section{Writing RDF graphs}
+\label{sec:rdfxml-write}
 
 The library \pllib{rdf_write} provides the inverse of load_rdf/2 using
 the predicate rdf_write_xml/2.  In most cases the RDF parser is used in
@@ -386,6 +392,7 @@ rdf_write(File, Triples) :-
 
 
 \section{Testing the RDF translator}
+\label{sec:rdfxml-tests}
 
 A test-suite and driver program are provided by \file{rdf_test.pl} in
 the source directory. To run these tests, load this file into Prolog in
@@ -408,6 +415,7 @@ Run all tests and classify the result.
 \appendix
 
 \section{Metrics}
+\label{sec:rdfxml-metrics}
 
 It took three days to write and one to document the Prolog RDF parser.
 A significant part of the time was spent understanding the RDF
@@ -443,33 +451,9 @@ Prolog startup time to process this file. The \url[Pro
 Solutions]{http://www.pro-solutions.com/rdfdemo/} parser (written in
 Perl) requires 1.5 seconds exluding 0.25 seconds startup time.
 
-
-\section{Installation}
-
-\subsection{Unix systems}
-
-Installation on Unix system uses the commonly found {\em configure},
-{\em make} and {\em make install} sequence. SWI-Prolog should be
-installed before building this package. If SWI-Prolog is not installed
-as \program{pl}, the environment variable \env{PL} must be set to the
-name of the SWI-Prolog executable. Installation is now accomplished
-using:
-
-\begin{code}
-% ./configure
-% make
-% make install
-\end{code}
-
-This installs the Prolog library files in \file{\$ PLBASE/library}, where
-\file{\$ PLBASE} refers to the SWI-Prolog `home-directory'.
-
-\subsection{Windows}
-
-Run the file \file{setup.pl} by double clicking it.  This will install
-the required files into the SWI-Prolog directory and update the
-library directory.
-
 \end{document}
+
+
+
 
 
