@@ -209,7 +209,10 @@ process_rdf(File, OnObject, M:Options0) :-
 	),
 	new_sgml_parser(Parser, [dtd(DTD)]),
 	def_entities(EntOptions, DTD),
-	set_sgml_parser(Parser, file(Source)),
+	(   Source \== []
+	->  set_sgml_parser(Parser, file(Source))
+	;   true
+	),
 	set_sgml_parser(Parser, dialect(xmlns)),
 	set_sgml_parser(Parser, space(sgml)),
 	do_process_rdf(Parser, In, NSList, Close, Cleanup, ProcessOptions).

@@ -442,7 +442,10 @@ name_uri(URI, Options) ::=
 value_uri(URI, Options) ::=
 	A,
 	{   rdf_state_base_uri(Options, Base),
-	    iri_normalized(A, Base, URI)
+	    (	Base \== []
+	    ->	iri_normalized(A, Base, URI)
+	    ;	URI = A
+	    )
 	}.
 
 uniqueid(Id, Options) ::=
