@@ -60,19 +60,19 @@ process_manifest(Manifest) :-
 
 assert_triples([]).
 assert_triples([rdf(S, P, O)|T]) :-
-	canonise(S, Subject),
-	canonise(P, Predicate),
-	canonise(O, Object),
+	canonicalise(S, Subject),
+	canonicalise(P, Predicate),
+	canonicalise(O, Object),
 	assert(rdf(Subject, Predicate, Object)),
 	assert_triples(T).
 
-canonise(NS:Name, N:Name) :-
+canonicalise(NS:Name, N:Name) :-
 	ns(N, NS), !.
-canonise(Absolute, N:Name) :-
+canonicalise(Absolute, N:Name) :-
 	atom(Absolute),
 	ns(N, NS),
 	atom_concat(NS, Name, Absolute), !.
-canonise(X, X).
+canonicalise(X, X).
 
 
 run_tests :-
