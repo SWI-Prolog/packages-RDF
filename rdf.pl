@@ -190,19 +190,18 @@ process_rdf(File, OnObject, M:Options0) :-
 	is_list(Options0), !,
 	entity_options(Options0, EntOptions, Options1),
 	meta_options(load_meta_option, M:Options1, Options2),
-	process_options(Options2, ProcessOptions, Options),
-	option(base_uri(BaseURI), Options, ''),
-	rdf_start_file(Options, Cleanup),
+	option(base_uri(BaseURI), Options2, ''),
+	rdf_start_file(Options2, Cleanup),
 	strip_module(OnObject, Module, Pred),
 	nb_setval(rdf_object_handler, Module:Pred),
-	nb_setval(rdf_options, Options),
+	nb_setval(rdf_options, Options2),
 	nb_setval(rdf_state, -),
-	init_ns_collect(Options, NSList),
+	init_ns_collect(Options2, NSList),
 	(   File = stream(In)
 	->  Source = BaseURI
 	;   is_stream(File)
 	->  In = File,
-	    option(graph(Source), Options, BaseURI)
+	    option(graph(Source), Options2, BaseURI)
 	;   open(File, read, In, [type(binary)]),
 	    Close = In,
 	    Source = File
@@ -215,7 +214,7 @@ process_rdf(File, OnObject, M:Options0) :-
 	),
 	set_sgml_parser(Parser, dialect(xmlns)),
 	set_sgml_parser(Parser, space(sgml)),
-	do_process_rdf(Parser, In, NSList, Close, Cleanup, ProcessOptions).
+	do_process_rdf(Parser, In, NSList, Close, Cleanup, Options2).
 process_rdf(File, BaseURI, OnObject) :-
 	process_rdf(File, OnObject, [base_uri(BaseURI)]).
 
@@ -309,11 +308,6 @@ exit_ns_collect(NSList) :-
 	;   nb_getval(rdf_nslist, list(NSList))
 	).
 
-
-process_options(Options, Process, RestOptions) :-
-	select_option(content_length(Len), Options, RestOptions), !,
-	Process = [content_length(Len)].
-process_options(Options, [], Options).
 
 
 		 /*******************************
