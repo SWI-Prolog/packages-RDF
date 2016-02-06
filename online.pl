@@ -1,13 +1,35 @@
-/*  $Id$
+/*  Part of SWI-Prolog
 
-    Part of SWI-Prolog RDF parser
+    Author:        Jan Wielemaker
+    E-mail:        J.Wielemaker@vu.nl
+    WWW:           http://www.swi-prolog.org
+    Copyright (c)  2010-2015, University of Amsterdam
+    All rights reserved.
 
-    Author:  Jan Wielemaker
-    E-mail:  jan@swi.psy.uva.nl
-    WWW:     http://www.swi.psy.uva.nl/projects/SWI-Prolog/
-    Copying: LGPL-2.  See the file COPYING or http://www.gnu.org
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
 
-    Copyright (C) 1990-2000 SWI, University of Amsterdam. All rights reserved.
+    1. Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in
+       the documentation and/or other materials provided with the
+       distribution.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+    FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+    COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+    INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+    BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+    ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
 */
 
 
@@ -16,7 +38,6 @@
 :- use_module(rdf).
 :- use_module(rdf_parser).
 :- use_module(rewrite).
-:- use_module(pretty_print).
 
 term_expansion(F, T) :- rew_term_expansion(F, T).
 goal_expansion(F, T) :- rew_goal_expansion(F, T).
@@ -365,7 +386,7 @@ save_comment(Id, Mail, Comment) :-
 	atomic_list_concat([Base, '/', Id], FileBase),
 	absolute_file_name(FileBase, AbsFileBase),
 	absolute_file_name(Base, AbsBase),
-	sub_atom(AbsFileBase, 0, _, _, AbsBase), 	% verify in tree
+	sub_atom(AbsFileBase, 0, _, _, AbsBase),	% verify in tree
 	atom_concat(AbsFileBase, '.cmt', CmtFile),
 	open(CmtFile, write, Fd),
 	format(Fd, 'E-mail: ~w~n~n~w~n', [Mail, Comment]),

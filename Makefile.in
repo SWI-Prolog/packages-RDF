@@ -1,7 +1,7 @@
 ################################################################
 # SWI-Prolog `RDF' package
 # Author:    Jan Wielemaker. J.Wielemaker@vu.nl
-# Copyright: LGPL (see COPYING or www.gnu.org
+# Copyright: Simplified BSD
 ################################################################
 
 PACKAGE=RDF
