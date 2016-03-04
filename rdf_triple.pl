@@ -119,7 +119,7 @@ triples(description(Type, About, Props), Subject) -->
 	(   { shared_description(description(Type, Props), Subject)
 	    }
 	->  []
-	;   { make_id('__Description', Id)
+	;   { make_id('_:Description', Id)
 	    },
 	    triples(description(Type, about(Id), Props), Subject),
 	    { assert_shared_description(description(Type, Props), Subject)
@@ -136,7 +136,7 @@ triples(description(TypeURI, IdAbout, Props), Subject) -->
 		   | Props
 		   ], Subject).
 triples(unparsed(Data), Id) -->
-	{ make_id('__Error', Id),
+	{ make_id('_:Error', Id),
 	  print_message(error, rdf(unparsed(Data)))
 	},
 	[].
@@ -156,7 +156,7 @@ rdf_reset_node_ids :-
 
 description_id(Id, Id) :-
 	var(Id), !,
-	make_id('__Description', Id).
+	make_id('_:Description', Id).
 description_id(about(Id), Id).
 description_id(id(Id), Id) :-
 	(   unique_id(Id)
@@ -168,7 +168,7 @@ description_id(prefix(Id), prefix(Id)).
 description_id(node(NodeID), Id) :-
 	(   node_id(NodeID, Id)
 	->  true
-	;   make_id('__Node', Id),
+	;   make_id('_:Node', Id),
 	    assert(node_id(NodeID, Id))
 	).
 
@@ -246,7 +246,7 @@ statement(Subject, Pred, Object, Id, BagH, BagT) -->
 statement_id(Id) :-
 	nonvar(Id), !.
 statement_id(Id) :-
-	make_id('__Statement', Id).
+	make_id('_:Statement', Id).
 
 %%	li_pred(+Pred, -Pred, +Nth, -NextNth)
 %
@@ -267,7 +267,7 @@ collection([], Nil) -->
 	}.
 collection([H|T], Id) -->
 	triples(H, HId),
-	{ make_id('__List', Id)
+	{ make_id('_:List', Id)
 	},
 	rdf(Id, rdf:type, rdf:'List'),
 	rdf(Id, rdf:first, HId),
@@ -374,8 +374,8 @@ set_anon_prefix(Options, erase(Ref)) :-
 	option(base_uri(BaseURI), Options),
 	nonvar(BaseURI), !,
 	(   BaseURI == []
-	->  AnonBase = '__'
-	;   atomic_list_concat(['__', BaseURI, '#'], AnonBase)
+	->  AnonBase = '_:'
+	;   atomic_list_concat(['_:', BaseURI, '#'], AnonBase)
 	),
 	asserta(anon_prefix(AnonBase), Ref).
 set_anon_prefix(_, true).
@@ -403,10 +403,10 @@ make_id(For, ID) :-
 make_id(For, ID) :-
 	gensym(For, ID).
 
-anon_base('__Description').
-anon_base('__Statement').
-anon_base('__List').
-anon_base('__Node').
+anon_base('_:Description').
+anon_base('_:Statement').
+anon_base('_:List').
+anon_base('_:Node').
 
 %%	rdf_reset_ids is det.
 %

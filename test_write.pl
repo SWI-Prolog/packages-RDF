@@ -133,29 +133,29 @@ test(1, true) :-
 	test_graph([ rdf(s, p, o)
 		   ]).
 test(anon_s, true) :-
-	test_graph([ rdf('__s', p, o)
+	test_graph([ rdf('_:s', p, o)
 		   ]).
 test(anon_o, true) :-
-	test_graph([ rdf(s, p, '__o')
+	test_graph([ rdf(s, p, '_:o')
 		   ]).
 test(anon_loop, blocked('NodeID map must check for cycles')) :-
-	test_graph([ rdf('__r1', p1, '__r2'),
-		     rdf('__r2', p1, '__r1')
+	test_graph([ rdf('_:r1', p1, '_:r2'),
+		     rdf('_:r2', p1, '_:r1')
 		   ]).
 test(anon_loop, true) :-
-	test_graph([ rdf('__r1', p1, '__r2'),
-		     rdf('__r1', p2, '__r2'),
-		     rdf('__r2', p1, '__r1'),
-		     rdf('__r2', p2, '__r1')
+	test_graph([ rdf('_:r1', p1, '_:r2'),
+		     rdf('_:r1', p2, '_:r2'),
+		     rdf('_:r2', p1, '_:r1'),
+		     rdf('_:r2', p2, '_:r1')
 		   ]).
 test(anon_reuse, true) :-
-	test_graph([ rdf('__s1', p1, '__o1'),
-		     rdf('__s2', p1, '__o1')
+	test_graph([ rdf('_:s1', p1, '_:o1'),
+		     rdf('_:s2', p1, '_:o1')
 		   ]).
 test(anon_reuse, true) :-
-	test_graph([ rdf('__s1', p1, '__o1'),
-		     rdf('__s2', p1, '__o1'),
-		     rdf('__o1', name, literal(foo))
+	test_graph([ rdf('_:s1', p1, '_:o1'),
+		     rdf('_:s2', p1, '_:o1'),
+		     rdf('_:o1', name, literal(foo))
 		   ]).
 test(literal, true) :-
 	test_graph([ rdf(s, p, literal(hello))

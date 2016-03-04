@@ -434,7 +434,7 @@ initialise(F, Value:prolog) :->
 	"Create visualisation"::
 	send(F, slot, value, Value),
 	literal_label(Value, Label),
-	atom_concat('__lit:', Label, Id),
+	atom_concat('_:lit:', Label, Id),
 	send_super(F, initialise, Id),
 	send(F, display, new(B, box)),
 	send(B, fill_pattern, colour(grey80)),
@@ -454,7 +454,7 @@ literal_label(Value, Label) :-
 
 literal_name(Value, Name) :-
 	literal_label(Value, Label),
-	atom_concat('__lit:', Label, Name).
+	atom_concat('_:lit:', Label, Name).
 
 fit(F) :->
 	"Make box fit contents"::
