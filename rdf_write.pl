@@ -40,7 +40,6 @@
 :- use_module(library(sgml)).
 :- use_module(library(sgml_write)).
 :- use_module(library(assoc)).
-:- use_module(library(pairs)).
 :- use_module(library(debug)).
 
 
@@ -473,8 +472,11 @@ save_attribute(body, rdf(_,Name,literal(Literal)), DefNS, Out, _, Indent, _) :- 
 	save_attribute_value(Value, Out, Indent),
 	write(Out, '</'), rdf_write_id(Out, NameText), write(Out, '>').
 save_attribute(body, rdf(_, Name, Value), DefNS, Out, NodeIDs, Indent, Anon) :-
-	rdf_is_bnode(Value),
-	memberchk(anon(Value, Done, ValueTriples), Anon), !,
+	rdf_is_bnode(Value), !,
+	(   memberchk(anon(Value, Done, ValueTriples), Anon)
+	->  true
+	;   ValueTriples = []
+	),
 	rdf_p_id(Name, DefNS, NameText),
 	format(Out, '~N~*|<', [Indent]),
 	rdf_write_id(Out, NameText),
