@@ -195,7 +195,7 @@ process_rdf(File, OnObject, M:Options0) :-
 	option(base_uri(BaseURI), Options2, ''),
 	rdf_start_file(Options2, Cleanup),
 	strip_module(OnObject, Module, Pred),
-	nb_setval(rdf_object_handler, Module:Pred),
+	b_setval(rdf_object_handler, Module:Pred),
 	nb_setval(rdf_options, Options2),
 	nb_setval(rdf_state, -),
 	init_ns_collect(Options2, NSList),
@@ -277,7 +277,7 @@ on_begin(Tag, Attr, Parser) :-
 		       [ document(Content),
 			 parse(content)
 		       ]),
-	    nb_getval(rdf_object_handler, OnTriples),
+	    b_getval(rdf_object_handler, OnTriples),
 	    element_to_plrdf(element(Tag, Attr, Content), Objects, State),
 	    rdf_triples(Objects, Triples),
 	    call(OnTriples, Triples, File:Start)
