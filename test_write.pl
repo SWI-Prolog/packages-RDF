@@ -33,10 +33,10 @@
 */
 
 :- module(test_rdf_write,
-	  [ test_write/0,
-	    run_tests/0,
+          [ test_write/0,
+            run_tests/0,
             run_tests/1
-	  ]).
+          ]).
 
 :- asserta(user:file_search_path(foreign, '../sgml')).
 :- asserta(user:file_search_path(foreign, '../semweb')).
@@ -56,128 +56,133 @@
 :- use_module(rdf).
 
 test_write :-
-	run_tests([ rdf_write
-		  ]).
+    run_tests([ rdf_write
+              ]).
 
 
-		 /*******************************
-		 *	    ROUND TRIP		*
-		 *******************************/
+                 /*******************************
+                 *          ROUND TRIP          *
+                 *******************************/
 
 test_graph(Triples) :-
-	tmp_file(rdf, Tmp),
-	open(Tmp, write, Out, [encoding(utf8)]),
-	rdf_write_xml(Out, Triples),
-	close(Out),
-	cat(Tmp),
-	load_rdf(Tmp, ReadTriples),
-	delete_file(Tmp),
-	compare_triples(Triples, ReadTriples, _).
+    tmp_file(rdf, Tmp),
+    open(Tmp, write, Out, [encoding(utf8)]),
+    rdf_write_xml(Out, Triples),
+    close(Out),
+    cat(Tmp),
+    load_rdf(Tmp, ReadTriples),
+    delete_file(Tmp),
+    compare_triples(Triples, ReadTriples, _).
 
 cat(File) :-
-	debugging(rdf_write), !,
-	open(File, read, In, [encoding(utf8)]),
-	copy_stream_data(In, current_output),
-	close(In).
+    debugging(rdf_write),
+    !,
+    open(File, read, In, [encoding(utf8)]),
+    copy_stream_data(In, current_output),
+    close(In).
 cat(_).
 
-		 /*******************************
-		 *	     COMPARING		*
-		 *******************************/
+                 /*******************************
+                 *           COMPARING          *
+                 *******************************/
 
-%	compare_triples(+PlRDF, +NTRDF, -Substitions)
+%       compare_triples(+PlRDF, +NTRDF, -Substitions)
 %
-%	Compare two models and if they are equal, return a list of
-%	PlID = NTID, mapping NodeID elements.
+%       Compare two models and if they are equal, return a list of
+%       PlID = NTID, mapping NodeID elements.
 
 
 compare_triples(A, B, Substitutions) :-
-	compare_list(A, B, [], Substitutions), !.
+    compare_list(A, B, [], Substitutions), 
+    !.
 
 compare_list([], [], S, S).
 compare_list([H1|T1], In2, S0, S) :-
-	select(H2, In2, T2),
-	compare_triple(H1, H2, S0, S1),
-	compare_list(T1, T2, S1, S).
+    select(H2, In2, T2),
+    compare_triple(H1, H2, S0, S1),
+    compare_list(T1, T2, S1, S).
 
 compare_triple(rdf(Subj1,P1,O1), rdf(Subj2, P2, O2), S0, S) :-
-	compare_field(Subj1, Subj2, S0, S1),
-	compare_field(P1, P2, S1, S2),
-	compare_field(O1, O2, S2, S).
+    compare_field(Subj1, Subj2, S0, S1),
+    compare_field(P1, P2, S1, S2),
+    compare_field(O1, O2, S2, S).
 
 compare_field(X, X, S, S) :- !.
 compare_field(literal(X), xml(X), S, S) :- !. % TBD
 compare_field(rdf:Name, Atom, S, S) :-
-	atom(Atom),
-	rdf_parser:rdf_name_space(NS),
-	atom_concat(NS, Name, Atom), !.
+    atom(Atom),
+    rdf_parser:rdf_name_space(NS),
+    atom_concat(NS, Name, Atom), 
+    !.
 compare_field(NS:Name, Atom, S, S) :-
-	atom(Atom),
-	atom_concat(NS, Name, Atom), !.
+    atom(Atom),
+    atom_concat(NS, Name, Atom), 
+    !.
 compare_field(X, Id, S, S) :-
-	memberchk(X=Id, S), !.
+    memberchk(X=Id, S), 
+    !.
 compare_field(X, Y, S, [X=Y|S]) :-
-	\+ memberchk(X=_, S),
-	rdf_is_bnode(X),
-	rdf_is_bnode(Y),
-	debug(bnode, 'Assume ~w = ~w~n', [X, Y]).
+    \+ memberchk(X=_, S),
+    rdf_is_bnode(X),
+    rdf_is_bnode(Y),
+    debug(bnode, 'Assume ~w = ~w~n', [X, Y]).
 
 
-		 /*******************************
-		 *	      TESTS		*
-		 *******************************/
+                 /*******************************
+                 *            TESTS             *
+                 *******************************/
 
 :- begin_tests(rdf_write).
 
 test(1, true) :-
-	test_graph([ rdf(s, p, o)
-		   ]).
+    test_graph([ rdf(s, p, o)
+               ]).
 test(anon_s, true) :-
-	test_graph([ rdf('_:s', p, o)
-		   ]).
+    test_graph([ rdf('_:s', p, o)
+               ]).
 test(anon_o, true) :-
-	test_graph([ rdf(s, p, '_:o')
-		   ]).
+    test_graph([ rdf(s, p, '_:o')
+               ]).
 test(anon_loop, blocked('NodeID map must check for cycles')) :-
-	test_graph([ rdf('_:r1', p1, '_:r2'),
-		     rdf('_:r2', p1, '_:r1')
-		   ]).
+    test_graph([ rdf('_:r1', p1, '_:r2'),
+                 rdf('_:r2', p1, '_:r1')
+               ]).
 test(anon_loop, true) :-
-	test_graph([ rdf('_:r1', p1, '_:r2'),
-		     rdf('_:r1', p2, '_:r2'),
-		     rdf('_:r2', p1, '_:r1'),
-		     rdf('_:r2', p2, '_:r1')
-		   ]).
+    test_graph([ rdf('_:r1', p1, '_:r2'),
+                 rdf('_:r1', p2, '_:r2'),
+                 rdf('_:r2', p1, '_:r1'),
+                 rdf('_:r2', p2, '_:r1')
+               ]).
 test(anon_reuse, true) :-
-	test_graph([ rdf('_:s1', p1, '_:o1'),
-		     rdf('_:s2', p1, '_:o1')
-		   ]).
+    test_graph([ rdf('_:s1', p1, '_:o1'),
+                 rdf('_:s2', p1, '_:o1')
+               ]).
 test(anon_reuse, true) :-
-	test_graph([ rdf('_:s1', p1, '_:o1'),
-		     rdf('_:s2', p1, '_:o1'),
-		     rdf('_:o1', name, literal(foo))
-		   ]).
+    test_graph([ rdf('_:s1', p1, '_:o1'),
+                 rdf('_:s2', p1, '_:o1'),
+                 rdf('_:o1', name, literal(foo))
+               ]).
 test(literal, true) :-
-	test_graph([ rdf(s, p, literal(hello))
-		   ]).
+    test_graph([ rdf(s, p, literal(hello))
+               ]).
 test(lang, true) :-
-	test_graph([ rdf(s, p, literal(lang(en, hello)))
-		   ]).
+    test_graph([ rdf(s, p, literal(lang(en, hello)))
+               ]).
 test(type, true) :-
-	test_graph([ rdf(s, p, literal(type(t, hello)))
-		   ]).
+    test_graph([ rdf(s, p, literal(type(t, hello)))
+               ]).
 test(iri_l1, true) :-
-	R = 'http://www.example.com/één_twee#r',
-	test_graph([ rdf(R,R,R)
-		   ]).
+    R = 'http://www.example.com/één_twee#r',
+    test_graph([ rdf(R,R,R)
+               ]).
 test(iri_amp, true) :-
-	R = 'http://www.example.com/een&twee#r',
-	test_graph([ rdf(R,R,R)
-		   ]).
+    R = 'http://www.example.com/een&twee#r',
+    test_graph([ rdf(R,R,R)
+               ]).
 test(iri_space, true) :-
-	R = 'http://www.example.com/een%20twee#r',
-	test_graph([ rdf(R,R,R)
-		   ]).
+    R = 'http://www.example.com/een%20twee#r',
+    test_graph([ rdf(R,R,R)
+               ]).
 
 :- end_tests(rdf_write).
 
