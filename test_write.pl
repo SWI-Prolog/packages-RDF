@@ -93,7 +93,7 @@ cat(_).
 
 
 compare_triples(A, B, Substitutions) :-
-    compare_list(A, B, [], Substitutions), 
+    compare_list(A, B, [], Substitutions),
     !.
 
 compare_list([], [], S, S).
@@ -112,14 +112,14 @@ compare_field(literal(X), xml(X), S, S) :- !. % TBD
 compare_field(rdf:Name, Atom, S, S) :-
     atom(Atom),
     rdf_parser:rdf_name_space(NS),
-    atom_concat(NS, Name, Atom), 
+    atom_concat(NS, Name, Atom),
     !.
 compare_field(NS:Name, Atom, S, S) :-
     atom(Atom),
-    atom_concat(NS, Name, Atom), 
+    atom_concat(NS, Name, Atom),
     !.
 compare_field(X, Id, S, S) :-
-    memberchk(X=Id, S), 
+    memberchk(X=Id, S),
     !.
 compare_field(X, Y, S, [X=Y|S]) :-
     \+ memberchk(X=_, S),

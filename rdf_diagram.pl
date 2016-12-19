@@ -450,7 +450,7 @@ literal_label(xml(Value0), Value) :-
     !,
     literal_label(Value0, Value).
 literal_label(Value, Value) :-
-    atomic(Value), 
+    atomic(Value),
     !.
 literal_label(Value, Label) :-
     term_to_atom(Value, Label).
@@ -488,7 +488,7 @@ object_literal(rdf(_,_,Literal), Literal).
 
 
 resource_name(Name, Name) :-
-    atom(Name), 
+    atom(Name),
     !.
 resource_name(rdf:Local, Name) :-      % known namespaces
     !,
@@ -503,7 +503,7 @@ is_type(rdf(_, rdf:type, _)) :- !.      % our parser
 is_type(rdf(_, Pred, _)) :-             % our parser
     atom(Pred),
     rdf_name_space(NS),
-    atom_concat(NS, type, Pred), 
+    atom_concat(NS, type, Pred),
     !.
 
 %       local_name(+Resource, -Label)
@@ -513,10 +513,10 @@ is_type(rdf(_, Pred, _)) :-             % our parser
 local_name(Resource, Local) :-
     sub_atom(Resource, _, _, A, #),
     sub_atom(Resource, _, A, 0, Local),
-    \+ sub_atom(Local, _, _, _, #), 
+    \+ sub_atom(Local, _, _, _, #),
     !.
 local_name(Resource, Local) :-
-    atom_concat('rdf:', Local, Resource), 
+    atom_concat('rdf:', Local, Resource),
     !.
 local_name(Resource, Local) :-
     file_base_name(Resource, Local),

@@ -77,7 +77,7 @@ load_rdf_ntriples(File, Triples) :-
 
 open_nt_file(stream(Stream), Stream, true) :- !.
 open_nt_file(Stream, Stream, true) :-
-    is_stream(Stream), 
+    is_stream(Stream),
     !.
 open_nt_file(Spec, Stream, close(Stream)) :-
     absolute_file_name(Spec,
@@ -135,7 +135,7 @@ triple(rdf(Subject, Predicate, Object)) -->
     object(Object), wss, ".", wss.
 
 subject(Subject) -->
-    uniref(Subject), 
+    uniref(Subject),
     !.
 subject(Subject) -->
     node_id(Subject).
@@ -144,7 +144,7 @@ predicate(Predicate) -->
     uniref(Predicate).
 
 object(Object) -->
-    uniref(Object), 
+    uniref(Object),
     !.
 object(Object) -->
     node_id(Object).
@@ -168,7 +168,7 @@ node_id(node(Id)) -->                   % anonymous nodes
     }.
 
 literal(Literal) -->
-    lang_string(Literal), 
+    lang_string(Literal),
     !.
 literal(Literal) -->
     xml_string(Literal).

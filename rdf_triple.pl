@@ -254,7 +254,7 @@ statement(Subject, Pred, Object, Id, BagH, BagT) -->
 
 
 statement_id(Id) :-
-    nonvar(Id), 
+    nonvar(Id),
     !.
 statement_id(Id) :-
     make_id('_:Statement', Id).
@@ -308,7 +308,7 @@ global_ref(In, Out) :-
     ).
 
 global_obj(V, V) :-
-    var(V), 
+    var(V),
     !.
 global_obj(literal(type(Local, X)), literal(type(Global, X))) :-
     !,

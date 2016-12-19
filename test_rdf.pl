@@ -254,7 +254,7 @@ is_subject(0) :- !, fail.               % Variables
 is_subject(URI) :- is_uri(URI), !.
 is_subject(each(URI)) :- is_uri(URI), !.
 is_subject(prefix(Pattern)) :-
-    atom(Pattern), 
+    atom(Pattern),
     !.
 
 is_predicate(0) :- !, fail.
@@ -281,10 +281,10 @@ is_object(URI) :-
     is_uri(URI).
 
 is_object(Subject) :-
-    is_subject(Subject), 
+    is_subject(Subject),
     !.
 is_object(Pred) :-
-    is_predicate(Pred), 
+    is_predicate(Pred),
     !.
 
 is_uri(URI) :- atom(URI).

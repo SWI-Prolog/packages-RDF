@@ -144,7 +144,7 @@ emit(Atom) :-
     end_tag(Name).
 
 end_tag(Name) :-
-    blines(Name, _, o), 
+    blines(Name, _, o),
     !.
 end_tag(Name) :-
     layout(before(close, Name)),
@@ -396,7 +396,7 @@ request_dir(BaseDir, Date) :-
     atomic_list_concat([D, -, M, -, Y], Date).
 
 ensure_dir(Dir) :-
-    exists_directory(Dir), 
+    exists_directory(Dir),
     !.
 ensure_dir(Dir) :-
     make_directory(Dir).

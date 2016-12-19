@@ -54,7 +54,7 @@ goal_expansion(attrs(Attrs, List), Goal) :-
     translate_attrs(List, Attrs, Goal).
 
 translate_attrs(Var, Attrs, rewrite(Var, Attrs)) :-
-    var(Var), 
+    var(Var),
     !.
 translate_attrs([], _, true) :- !.
 translate_attrs([H], Attrs, Goal) :-
@@ -238,7 +238,7 @@ propertyElt(E, Options) ::=
         }.
 
 mkprop(NS:Local, Value, rdf:Local = Value) :-
-    rdf_name_space(NS), 
+    rdf_name_space(NS),
     !.
 mkprop(Name, Value, Name = Value).
 

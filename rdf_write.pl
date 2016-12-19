@@ -211,7 +211,7 @@ decl_used_predicate_ns(Triples) :-
     ).
 
 decl_predicate_ns(Pred) :-
-    predicate_ns(Pred, _), 
+    predicate_ns(Pred, _),
     !.
 decl_predicate_ns(Pred) :-
     rdf_global_id(NS:Local, Pred),
@@ -219,7 +219,7 @@ decl_predicate_ns(Pred) :-
     !,
     assert(predicate_ns(Pred, NS)).
 decl_predicate_ns(Pred) :-
-    is_bag_li_predicate(Pred), 
+    is_bag_li_predicate(Pred),
     !.
 decl_predicate_ns(Pred) :-
     atom_codes(Pred, Codes),
@@ -247,7 +247,7 @@ xml_codes([H|T]) :-
     xml_codes(T).
 
 xml_code(X) :-
-    code_type(X, csym), 
+    code_type(X, csym),
     !.
 xml_code(0'-).                          % '
 
@@ -372,7 +372,7 @@ save_about(Out, Subject, NodeIDs) :-
 save_about(Out, Subject, _) :-
     stream_property(Out, encoding(Encoding)),
     rdf_value(Subject, QSubject, Encoding),
-    format(Out, ' rdf:about="~w"', [QSubject]), 
+    format(Out, ' rdf:about="~w"', [QSubject]),
     !.
 save_about(_, _, _) :-
     assertion(fail).
@@ -551,7 +551,7 @@ save_attribute_value(Value, _Out, _) :-
     throw(error(save_attribute_value(Value), _)).
 
 rdf_save_list(_, _, List, _, _, _, _) :-
-    rdf_equal(List, rdf:nil), 
+    rdf_equal(List, rdf:nil),
     !.
 rdf_save_list(ListTriples, Out, List, NodeIDs, DefNS, Indent, Anon) :-
     rdf_equal(RdfFirst, rdf:first),
@@ -580,7 +580,7 @@ rdf_save_list(ListTriples, Out, List, NodeIDs, DefNS, Indent, Anon) :-
 %   @tbd    Ensure we are talking about an rdf:Bag
 
 rdf_p_id(LI, _, 'rdf:li') :-
-    is_bag_li_predicate(LI), 
+    is_bag_li_predicate(LI),
     !.
 rdf_p_id(Resource, DefNS, NSLocal) :-
     rdf_id(Resource, DefNS, NSLocal).
@@ -592,7 +592,7 @@ rdf_p_id(Resource, DefNS, NSLocal) :-
 
 is_bag_li_predicate(Pred) :-
     atom_concat('_:', AN, Pred),
-    catch(atom_number(AN, N), _, true), integer(N), N >= 0, 
+    catch(atom_number(AN, N), _, true), integer(N), N >= 0,
     !.
 
 
@@ -605,13 +605,13 @@ rdf_id(Id, NS, NS:Local) :-
     ns(NS, Full),
     Full \== '',
     atom_concat(Full, Local, Id),
-    xml_name(Local), 
+    xml_name(Local),
     !.
 rdf_id(Id, _, NS:Local) :-
     ns(NS, Full),
     Full \== '',
     atom_concat(Full, Local, Id),
-    xml_name(Local), 
+    xml_name(Local),
     !.
 rdf_id(Id, _, Id).
 
@@ -634,7 +634,7 @@ rdf_att_id(Id, _, NS:Local) :-
     ns(NS, Full),
     Full \== '',
     atom_concat(Full, Local, Id),
-    xml_name(Local), 
+    xml_name(Local),
     !.
 rdf_att_id(Id, _, Id).
 

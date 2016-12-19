@@ -60,7 +60,7 @@
 %verbose.
 
 set_verbose :-
-    verbose, 
+    verbose,
     !.
 set_verbose :-
     assert(verbose).
@@ -90,12 +90,12 @@ assert_triples([rdf(S, P, O)|T]) :-
     assert_triples(T).
 
 canonicalise(NS:Name, N:Name) :-
-    ns(N, NS), 
+    ns(N, NS),
     !.
 canonicalise(Absolute, N:Name) :-
     atom(Absolute),
     ns(N, NS),
-    atom_concat(NS, Name, Absolute), 
+    atom_concat(NS, Name, Absolute),
     !.
 canonicalise(X, X).
 
@@ -436,14 +436,14 @@ compare_field(literal(X), xml(X), S, S) :- !. % TBD
 compare_field(rdf:Name, Atom, S, S) :-
     atom(Atom),
     rdf_parser:rdf_name_space(NS),
-    atom_concat(NS, Name, Atom), 
+    atom_concat(NS, Name, Atom),
     !.
 compare_field(NS:Name, Atom, S, S) :-
     atom(Atom),
-    atom_concat(NS, Name, Atom), 
+    atom_concat(NS, Name, Atom),
     !.
 compare_field(X, node(Id), S, S) :-
-    memberchk(X=Id, S), 
+    memberchk(X=Id, S),
     !.
 compare_field(X, node(Id), S, [X=Id|S]) :-
     \+ memberchk(X=_, S),
@@ -483,14 +483,14 @@ bag_members([T0|T], Bag, Elems, [T0|R]) :-
 
 member_prop(rdf:Name) :-
     atom_codes(Name, [0'_|Codes]),
-    number_codes(_N, Codes), 
+    number_codes(_N, Codes),
     !.
 member_prop(Prop) :-
     atom(Prop),
     rdf_parser:rdf_name_space(NS),
     atom_concat(NS, Name, Prop),
     atom_codes(Name, [0'_|Codes]),
-    number_codes(_N, Codes), 
+    number_codes(_N, Codes),
     !.
 
 
