@@ -43,8 +43,8 @@ uninstall:
 		$(MKINDEX)
 
 check::
-		$(PL) -q -f test_rdf.pl -g test_rdf,halt -t 'halt(1)'
-		$(PL) -q -f test_write.pl -g test_write,halt -t 'halt(1)'
+		$(PL) -q -f test_rdf.pl -g test_rdf -t halt
+		$(PL) -q -f test_write.pl -g test_write -t halt
 
 ################################################################
 # Clean
