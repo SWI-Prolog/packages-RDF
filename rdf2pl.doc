@@ -264,8 +264,8 @@ If the literal is an XML literal as created by
 \mbox{parseType="Literal"}, the raw output of the XML parser for the
 content of the element is returned. This content is a list of
 \term{element}{Name, Attributes, Content} and atoms for CDATA parts as
-described with the SWI-Prolog \url[SGML/XML
-parser]{http://www.swi-prolog.org/packages/sgml2pl.html}
+described with the SWI-Prolog
+\href{http://www.swi-prolog.org/packages/sgml2pl.html}{SGML/XML parser}.
 
     \item [\term{type}{Type, StringValue}]
 If the literal has an \verb$rdf:datatype=$\arg{Type} a term of this
@@ -279,8 +279,9 @@ format is returned.
 XML name spaces are identified using a URI. Unfortunately various URI's
 are in common use to refer to RDF. The \file{rdf_parser.pl} module
 therefore defines the namespace as a multifile/1 predicate, that can be
-extended by the user. For example, to parse the \url[Netscape
-OpenDirectory]{http://www.mozilla.org/rdf/doc/inference.html}
+extended by the user. For example, to parse the
+\href{http://www.mozilla.org/rdf/doc/inference.html}{Netscape
+OpenDirectory}
 \file{structure.rdf} file, the following declarations are used:
 
 \begin{code}
@@ -447,9 +448,10 @@ resulting in 599 triples.  Environment: Intel Pentium-II/450 with
 384 Mbytes memory running SuSE Linux 6.3.
 
 The parser described here requires 0.15 seconds excluding 0.13 seconds
-Prolog startup time to process this file. The \url[Pro
-Solutions]{http://www.pro-solutions.com/rdfdemo/} parser (written in
-Perl) requires 1.5 seconds exluding 0.25 seconds startup time.
+Prolog startup time to process this file. The
+\href{http://www.pro-solutions.com/rdfdemo/}{Pro Solutions} parser
+(written in Perl) requires 1.5 seconds exluding 0.25 seconds startup
+time.
 
 \end{document}
 
