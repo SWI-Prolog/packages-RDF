@@ -15,3 +15,5 @@ endif()
 test_libs(
     rdf write
     PACKAGES clib sgml semweb)
+
+pkg_doc(rdf2pl)
