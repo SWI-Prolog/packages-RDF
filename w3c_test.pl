@@ -45,7 +45,7 @@
 :- asserta(user:file_search_path(library, '.')).
 
 :- use_module(rdf).                     % our RDF parser
-:- use_module(rdf_ntriples).                    % read .nt files
+:- use_module(w3c_ntdata).              % read old w4c .nt text data files
 :- load_files([ library(pce),
                 library(toolbar),
                 library(pce_report),
