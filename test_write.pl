@@ -47,13 +47,17 @@
 :- asserta(user:file_search_path(library, '../plunit')).
 :- asserta(user:file_search_path(library, '../clib')).
 
+:- prolog_load_context(directory, D),
+   asserta(user:file_search_path(library, D)),
+   atom_concat(D, '/..', DD),
+   asserta(user:file_search_path(library, DD)).
 :- use_module(library(plunit)).
 :- use_module(library(rdf_write)).
 :- use_module(library(sgml)).
 :- use_module(library(lists)).
 :- use_module(library(debug)).
 :- use_module(library(semweb/rdf_db)).
-:- use_module(rdf).
+:- use_module(library(rdf)).
 
 test_write :-
     run_tests([ rdf_write
