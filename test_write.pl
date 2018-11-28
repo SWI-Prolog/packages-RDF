@@ -53,7 +53,7 @@
 :- use_module(library(lists)).
 :- use_module(library(debug)).
 :- use_module(library(semweb/rdf_db)).
-:- use_module(rdf).
+:- use_module(library(rdf)).
 
 test_write :-
     run_tests([ rdf_write
