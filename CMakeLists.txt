@@ -14,7 +14,7 @@ endif()
 test_libs(
     rdf write
     PACKAGES clib sgml semweb
-    TEST_FILES_REGEX "w3c_ntdata.pl$")
+    TEST_FILES w3c_ntdata.pl)
 
 pkg_doc(
     rdf2pl
