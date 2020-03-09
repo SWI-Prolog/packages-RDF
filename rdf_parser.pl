@@ -39,12 +39,18 @@
             rdf_modify_state/3,         % +XMLAttrs, +State0, -State
             rdf_name_space/1
           ]).
-:- use_module(rewrite).
-:- use_module(library(sgml)).           % xml_name/1
-:- use_module(library(lists)).
-:- use_module(library(uri)).
-:- use_module(library(record)).
+:- use_module(library(record),[(record)/1, op(_,_,record)]).
+:- use_module(library(rewrite_term),
+              [ rew_term_expansion/2,rew_goal_expansion/2,
+                op(_,_,::=)
+              ]).
+:- autoload(library(lists),[select/3,append/3,member/2]).
+:- autoload(library(occurs),[sub_term/2]).
+:- autoload(library(sgml),[xml_name/1]).
+:- autoload(library(uri),[iri_normalized/3]).
 
+
+% xml_name/1
 :- op(500, fx, \?).                     % Optional (attrs)
 
 term_expansion(F, T) :- rew_term_expansion(F, T).
@@ -53,31 +59,31 @@ goal_expansion(F, T) :- rew_goal_expansion(F, T).
 goal_expansion(attrs(Attrs, List), Goal) :-
     translate_attrs(List, Attrs, Goal).
 
-translate_attrs(Var, Attrs, rewrite(Var, Attrs)) :-
+translate_attrs(Var, Attrs, rewrite_term(Var, Attrs)) :-
     var(Var),
     !.
 translate_attrs([], _, true) :- !.
 translate_attrs([H], Attrs, Goal) :-
     !,
     (   var(H)
-    ->  Goal = rewrite(H, Attrs)
+    ->  Goal = rewrite_term(H, Attrs)
     ;   H = \?Optional
     ->  Goal = (   member(A, Attrs),
                    OptRewrite
                ->  true
                ;   true
                ),
-        expand_goal(rewrite(\Optional, A), OptRewrite)
+        expand_goal(rewrite_term(\Optional, A), OptRewrite)
     ;   Goal = (   member(A, Attrs),
                    Rewrite
                ->  true
                ),
-        expand_goal(rewrite(H, A), Rewrite)
+        expand_goal(rewrite_term(H, A), Rewrite)
     ).
 translate_attrs([H|T], Attrs0, (G0, G1)) :-
     !,
     (   var(H)
-    ->  G0 = rewrite(H, Attrs0),
+    ->  G0 = rewrite_term(H, Attrs0),
         Attrs1 = Attrs0
     ;   H = \?Optional
     ->  G0 = (   select(A, Attrs0, Attrs1),
@@ -85,15 +91,15 @@ translate_attrs([H|T], Attrs0, (G0, G1)) :-
              ->  true
              ;   Attrs1 = Attrs0
              ),
-        expand_goal(rewrite(\Optional, A), OptRewrite)
+        expand_goal(rewrite_term(\Optional, A), OptRewrite)
     ;   G0 = (   select(A, Attrs0, Attrs1),
                  Rewrite
              ),
-        expand_goal(rewrite(H, A), Rewrite)
+        expand_goal(rewrite_term(H, A), Rewrite)
     ),
     translate_attrs(T, Attrs1, G1).
 translate_attrs(Rule, Attrs, Goal) :-
-    expand_goal(rewrite(Rule, Attrs), Goal).
+    expand_goal(rewrite_term(Rule, Attrs), Goal).
 
 
 :- multifile rdf_name_space/1.
@@ -125,8 +131,8 @@ rdf_name_space('http://www.w3.org/TR/REC-rdf-syntax').
 
 xml_to_plrdf(Element, RDF, State) :-
     (   is_list(Element)
-    ->  rewrite(\xml_content_objects(RDF, State), Element)
-    ;   rewrite(\xml_objects(RDF, State), Element)
+    ->  rewrite_term(\xml_content_objects(RDF, State), Element)
+    ;   rewrite_term(\xml_objects(RDF, State), Element)
     ).
 
 %!  element_to_plrdf(+DOM, -RDFTerm, +State)
@@ -134,12 +140,12 @@ xml_to_plrdf(Element, RDF, State) :-
 %   Rewrite a single XML element.
 
 element_to_plrdf(Element, RDF, State) :-
-    rewrite(\nodeElementList(RDF, State), [Element]).
+    rewrite_term(\nodeElementList(RDF, State), [Element]).
 
 xml_objects(Objects, Options0) ::=
         E0,
         { modify_state(E0, Options0, E, Options), !,
-          rewrite(\xml_objects(Objects, Options), E)
+          rewrite_term(\xml_objects(Objects, Options), E)
         }.
 xml_objects(Objects, Options) ::=
         element((\rdf('RDF'), !),
@@ -184,7 +190,7 @@ nodeElement(description(Type, About, Properties), Options) ::=
 description(Type, About, Properties, Options0) ::=
         E0,
         { modify_state(E0, Options0, E, Options), !,
-          rewrite(\description(Type, About, Properties, Options), E)
+          rewrite_term(\description(Type, About, Properties, Options), E)
         }.
 description(description, About, Properties, Options) ::=
         element(\rdf('Description'),
@@ -246,7 +252,7 @@ mkprop(Name, Value, Name = Value).
 propertyElt(Id, Name, Value, Options0) ::=
         E0,
         { modify_state(E0, Options0, E, Options), !,
-          rewrite(\propertyElt(Id, Name, Value, Options), E)
+          rewrite_term(\propertyElt(Id, Name, Value, Options), E)
         }.
 propertyElt(Id, Name, Value, Options) ::=
         \literalPropertyElt(Id, Name, Value, Options), !.
@@ -268,7 +274,7 @@ propertyElt(Id, Name, collection(Elements), Options) ::=
 propertyElt(Id, Name, Value, Options) ::=
         element(Name, A, \all_ws),
         { !,
-          rewrite(\emptyPropertyElt(Id, Value, Options), A)
+          rewrite_term(\emptyPropertyElt(Id, Value, Options), A)
         }.
 
 propertyElt(_, Name, description(description, Id, Properties), Options) ::=
@@ -442,7 +448,7 @@ typeAttr(Type, Options) ::=
 name_uri(URI, Options) ::=
         NS:Local,
         {   !, atom_concat(NS, Local, A),
-            rewrite(\value_uri(URI, Options), A)
+            rewrite_term(\value_uri(URI, Options), A)
         }.
 name_uri(URI, Options) ::=
         \value_uri(URI, Options).
@@ -511,17 +517,17 @@ attrs(Bag) ::=
 do_attrs([], _) :- !.
 do_attrs([\?H|T], L0) :- !,             % optional
         (   select(X, L0, L),
-            rewrite(\H, X)
+            rewrite_term(\H, X)
         ->  true
         ;   L = L0
         ),
         do_attrs(T, L).
 do_attrs([H|T], L0) :-
         select(X, L0, L),
-        rewrite(H, X), !,
+        rewrite_term(H, X), !,
         do_attrs(T, L).
 do_attrs(C, L) :-
-        rewrite(C, L).
+        rewrite_term(C, L).
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 %       \noMoreAttrs
@@ -633,7 +639,7 @@ emacs_prolog_colours:goal_classification(\_, expanded).
     prolog:meta_goal/2,
     prolog:called_by/2.
 
-prolog:meta_goal(rewrite(A, _), [A]).
+prolog:meta_goal(rewrite_term(A, _), [A]).
 prolog:meta_goal(\A,            [A+1]).
 
 prolog:called_by(attrs(Attrs, _Term), Called) :-

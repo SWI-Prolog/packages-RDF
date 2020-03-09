@@ -6,7 +6,8 @@ include("../cmake/PrologPackage.cmake")
 has_package(xpce HAVE_XPCE)
 
 swipl_plugin(RDF
-	     PL_LIBS rdf.pl rdf_parser.pl rdf_triple.pl rewrite.pl rdf_write.pl)
+	     PL_LIBS
+	     rdf.pl rdf_parser.pl rdf_triple.pl rewrite_term.pl rdf_write.pl)
 if(HAVE_XPCE)
   swipl_plugin(XPCERDF PL_LIBS rdf_diagram.pl)
 endif()

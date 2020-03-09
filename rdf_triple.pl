@@ -40,10 +40,11 @@
             rdf_end_file/1,             % +Cleanup
             anon_prefix/1               % Prefix for anonynmous resources
           ]).
-:- use_module(library(gensym)).
-:- use_module(library(option)).
-:- use_module(library(uri)).
-:- use_module(rdf_parser).
+:- autoload(library(gensym),[gensym/2,reset_gensym/1]).
+:- autoload(library(option),[option/3,option/2]).
+:- autoload(library(rdf_parser),[rdf_name_space/1]).
+:- autoload(library(uri),[iri_normalized/2]).
+
 
 :- predicate_options(rdf_start_file/2, 1,
                      [ base_uri(atom),

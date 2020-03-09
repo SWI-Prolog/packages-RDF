@@ -3,7 +3,8 @@
     Author:        Jan Wielemaker
     E-mail:        J.Wielemaker@vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (c)  2010-2011, University of Amsterdam
+    Copyright (c)  2010-2020, University of Amsterdam
+                              CWI, Amsterdam
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -32,17 +33,17 @@
     POSSIBILITY OF SUCH DAMAGE.
 */
 
-:- module(rewrite,
-          [ rewrite/2,                  % +Rule, +Input
+:- module(rewrite_term,
+          [ rewrite_term/2,                  % +Rule, +Input
             rew_term_expansion/2,
             rew_goal_expansion/2,
 
             op(1200, xfx, (::=))
           ]).
-:- use_module(library(quintus)).
+:- autoload(library(occurs),[sub_term/2]).
 
 :- meta_predicate
-    rewrite(1, +).
+    rewrite_term(1, +).
 
                  /*******************************
                  *          COMPILATION         *
@@ -54,7 +55,7 @@ rew_term_expansion((Rule ::= RuleBody), (Head :- Body)) :-
     Rule =.. [Name|List],
     Head =.. [Name,Term|List].
 
-rew_goal_expansion(rewrite(To, From), Goal) :-
+rew_goal_expansion(rewrite_term(To, From), Goal) :-
     nonvar(To),
     To = \Rule,
     callable(Rule),
@@ -66,11 +67,11 @@ rew_goal_expansion(rewrite(To, From), Goal) :-
                  *            TOPLEVEL          *
                  *******************************/
 
-%!  rewrite(:To, +From)
+%!  rewrite_term(:To, +From)
 %
 %   Invoke the term-rewriting system
 
-rewrite(M:T, From) :-
+rewrite_term(M:T, From) :-
     (   var(T)
     ->  From = T
     ;   T = \Rule

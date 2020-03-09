@@ -3,7 +3,8 @@
     Author:        Jan Wielemaker
     E-mail:        J.Wielemaker@vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (c)  2010-2013, University of Amsterdam
+    Copyright (c)  2010-2020, University of Amsterdam
+                              CWI, Amsterdam
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -35,12 +36,15 @@
 :- module(rdf_write,
           [ rdf_write_xml/2             % +Stream, +Triples
           ]).
-:- use_module(library('semweb/rdf_db')).
-:- use_module(library(lists)).
-:- use_module(library(sgml)).
-:- use_module(library(sgml_write)).
-:- use_module(library(assoc)).
-:- use_module(library(debug)).
+:- autoload(library(assoc),
+	    [empty_assoc/1,put_assoc/4,assoc_to_keys/2,get_assoc/3]).
+:- autoload(library(debug),[assertion/1]).
+:- autoload(library(lists),[member/2,append/3,select/3]).
+:- autoload(library(sgml),
+	    [xml_quote_attribute/3, xml_name/1, xml_quote_cdata/3, xml_is_dom/1]).
+:- autoload(library(sgml_write),[xml_write/3]).
+:- autoload(library(semweb/rdf_db),
+	    [rdf_global_id/2, rdf_register_ns/2, rdf_is_bnode/1, rdf_equal/2]).
 
 
 /** <module> Write RDF/XML from a list of triples

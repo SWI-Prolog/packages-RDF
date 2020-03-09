@@ -3,7 +3,8 @@
     Author:        Jan Wielemaker
     E-mail:        J.Wielemaker@vu.nl
     WWW:           http://www.swi-prolog.org
-    Copyright (c)  2010-2015, University of Amsterdam
+    Copyright (c)  2010-2020, University of Amsterdam
+                              CWI, Amsterdam
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -43,11 +44,34 @@
     load_rdf(+, -, :),
     process_rdf(+, :, :).
 
-:- use_module(library(sgml)).           % Basic XML loading
-:- use_module(library(option)).         % option/3
-:- use_module(library(lists)).
-:- use_module(rdf_parser).              % Basic parser
-:- use_module(rdf_triple).              % Generate triples
+:- autoload(library(lists),[select/3,append/3]).
+:- autoload(library(option),[meta_options/3,option/3]).
+:- autoload(library(rdf_parser),
+	    [ make_rdf_state/3, xml_to_plrdf/3, rdf_name_space/1,
+              rdf_modify_state/3, element_to_plrdf/3
+	    ]).
+:- autoload(library(rdf_triple),
+	    [rdf_start_file/2,rdf_end_file/1,rdf_triples/2]).
+:- autoload(library(sgml),
+	    [ load_structure/3, new_sgml_parser/2, set_sgml_parser/2,
+	      open_dtd/3, xml_quote_attribute/2, sgml_parse/2,
+	      free_sgml_parser/1, get_sgml_parser/2
+	    ]).
+
+/** <module> RDF/XML parser
+
+This module parses RDF/XML documents. It   defines two processing modes:
+load_rdf/2 and load_rdf/3 which  process  a   document  into  a  list of
+rdf(S,P,O)  terms  and  process_rdf/3   which    processes   the   input
+description-by-description and uses a callback to handle the triples.
+
+@tbd The predicate load_rdf/2,3 is too   easily confused with the semweb
+library predicate rdf_load/2,3 which  uses   process_rdf/3  to store the
+triples in the triple DB.
+
+@tbd It would be better to use library(intercept) do distinguish to have
+one predicate that can operate in both collecting and streaming modes.
+*/
 
 %!  load_rdf(+File, -Triples) is det.
 %!  load_rdf(+File, -Triples, :Options) is det.
