@@ -1,4 +1,4 @@
----+ RDF/XML parser and writer
+# RDF/XML parser and writer
 
 This directory implements the RDF/XML parser   on  top of the SWI-Prolog
 XML parser. The main entry  point  is   provided  by  load_rdf/3  or the
