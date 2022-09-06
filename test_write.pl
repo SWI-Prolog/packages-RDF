@@ -38,22 +38,18 @@
             run_tests/1
           ]).
 
-:- asserta(user:file_search_path(foreign, '../sgml')).
-:- asserta(user:file_search_path(foreign, '../semweb')).
-:- asserta(user:file_search_path(foreign, '../clib')).
-:- asserta(user:file_search_path(library, '..')).
-:- asserta(user:file_search_path(library, '../sgml')).
-:- asserta(user:file_search_path(library, '.')).
-:- asserta(user:file_search_path(library, '../plunit')).
-:- asserta(user:file_search_path(library, '../clib')).
-
 :- use_module(library(plunit)).
 :- use_module(library(rdf_write)).
-:- use_module(library(sgml)).
 :- use_module(library(lists)).
 :- use_module(library(debug)).
-:- use_module(library(semweb/rdf_db)).
 :- use_module(library(rdf)).
+:- if(exists_source(library(semweb/rdf_db))).
+:- use_module(library(semweb/rdf_db)).
+:- else.
+rdf_is_bnode(Node) :-
+    atom(Node),
+    sub_atom(Node, 0, _, _, '_:').
+:- endif.
 
 test_write :-
     run_tests([ rdf_write
