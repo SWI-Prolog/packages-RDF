@@ -38,7 +38,7 @@
           ]).
 :- autoload(library(assoc),
 	    [empty_assoc/1,put_assoc/4,assoc_to_keys/2,get_assoc/3]).
-:- autoload(library(debug),[assertion/1]).
+:- use_module(library(debug),[assertion/1]).
 :- autoload(library(lists),[member/2,append/3,select/3]).
 :- autoload(library(sgml),
 	    [xml_quote_attribute/3, xml_name/1, xml_quote_cdata/3, xml_is_dom/1]).
