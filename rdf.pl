@@ -45,7 +45,7 @@
     process_rdf(+, :, :).
 
 :- autoload(library(lists),[select/3,append/3]).
-:- autoload(library(option),[meta_options/3,option/3]).
+:- autoload(library(option),[meta_options/3,option/2,option/3]).
 :- autoload(library(rdf_parser),
 	    [ make_rdf_state/3, xml_to_plrdf/3, rdf_name_space/1,
               rdf_modify_state/3, element_to_plrdf/3
@@ -300,7 +300,7 @@ on_begin(Tag, Attr, Parser) :-
     nb_getval(rdf_state, State),
     (   State == (-)
     ->  nb_getval(rdf_options, RdfOptions),
-        (   memberchk(embedded(true), RdfOptions)
+        (   option(embedded(true), RdfOptions)
         ->  true
         ;   print_message(warning, rdf(unexpected(Tag, Parser)))
         )
