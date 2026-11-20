@@ -1,7 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage{pl}
 \usepackage{html}
-\usepackage{times}
 
 \onefile
 \htmloutput{.}					% Output directory
